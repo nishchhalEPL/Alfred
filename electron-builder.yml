@@ -1,0 +1,22 @@
+appId: com.nishchal.alfred
+productName: Alfred
+copyright: Copyright © 2026 Nishchal
+directories:
+  output: release
+  buildResources: resources
+files:
+  - dist/**/*
+  - dist-electron/**/*
+mac:
+  category: public.app-category.productivity
+  icon: resources/icon.png
+  target:
+    - dmg
+    - zip
+  artifactName: "${productName}-${version}-${arch}.${ext}"
+  hardenedRuntime: false
+  gatekeeperAssess: false
+dmg:
+  title: Alfred
+  icon: resources/icon.png
+asar: true

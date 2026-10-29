@@ -1,0 +1,55 @@
+{
+  "name": "alfred",
+  "version": "1.0.0",
+  "description": "Alfred — a personal butler for decisions, time, and focused work.",
+  "author": "Nishchal",
+  "license": "MIT",
+  "private": true,
+  "main": "dist-electron/main.cjs",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n vite,electron \"vite\" \"npm run dev:electron\"",
+    "dev:electron": "npm run build:electron && wait-on tcp:5173 && VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+    "build:electron": "esbuild electron/main.ts electron/preload.ts --bundle --platform=node --packages=external --external:electron --outdir=dist-electron --format=cjs --out-extension:.js=.cjs",
+    "build:renderer": "vite build",
+    "build": "npm run typecheck && npm run build:renderer && npm run build:electron",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "icon": "node scripts/generate-icon.mjs",
+    "dist:mac": "npm run build && npm run icon && electron-builder --mac",
+    "dist:mac:dir": "npm run build && npm run icon && electron-builder --mac dir"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2",
+    "vite": "^6.0.7",
+    "vitest": "^2.1.8",
+    "wait-on": "^8.0.1"
+  }
+}
