@@ -88,6 +88,7 @@ export function applyCommand(snapshot: AppSnapshot, command: AppCommand, now = n
         completedAt: now.toISOString(),
         updatedAt: now.toISOString(),
       };
+      console.log("TASK RECURRENCE:", completed.title, completed.recurrence);
       const next = spawnRecurrence(completed, now);
       const tasks = snapshot.tasks.map((t) => (t.id === completed.id ? completed : t));
       return {
